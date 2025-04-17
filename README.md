@@ -86,4 +86,4 @@ MIT
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-# MarkDown format comming soon!
+# MarkDown support comming soon!
