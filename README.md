@@ -1,4 +1,4 @@
-# PDF Project Context Generator
+# CodeContext
 
 A Python tool that extracts code from your project and creates a comprehensive PDF document containing your project's structure and source code. This makes it easy to share your entire project context with LLMs like Claude for better understanding and assistance.
 
