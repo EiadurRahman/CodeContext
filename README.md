@@ -38,7 +38,7 @@ This will:
 ### Command Line Options
 
 ```bash
-python context_generator.py /path/to/your/project [--name PROJECT_NAME] [--output OUTPUT_FILE]
+python mainr.py /path/to/your/project [--name PROJECT_NAME] [--output OUTPUT_FILE]
 ```
 
 - `project_dir`: Path to the project directory (required)
@@ -48,7 +48,7 @@ python context_generator.py /path/to/your/project [--name PROJECT_NAME] [--outpu
 ## Example
 
 ```bash
-python context_generator.py ~/projects/my-flask-app --name "Flask Application" --output flask_app_context.pdf
+python main.py ~/projects/my-flask-app --name "Flask Application" --output flask_app_context.pdf
 ```
 
 ## What's Included in the PDF?
