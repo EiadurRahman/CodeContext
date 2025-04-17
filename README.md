@@ -38,7 +38,7 @@ This will:
 ### Command Line Options
 
 ```bash
-python mainr.py /path/to/your/project [--name PROJECT_NAME] [--output OUTPUT_FILE]
+python main.py /path/to/your/project [--name PROJECT_NAME] [--output OUTPUT_FILE]
 ```
 
 - `project_dir`: Path to the project directory (required)
