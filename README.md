@@ -1,4 +1,8 @@
 # CodeContext
+
+   CodeContext is a lightweight Python tool that extracts the structure and content of your codebase into a single, well-formatted PDF or Markdown document. Perfect for sharing your entire project context with AI assistants like Claude or GPT, it helps you get more accurate and contextual help with your code. Simply point it to your project directory, and CodeContext automatically creates a comprehensive document containing your project's structure and all source files while intelligently excluding binaries, media, and other non-essential files. Improve your AI coding assistance with complete project context at your fingertips.
+
+
 ## Features
 
 - **Complete Project Structure**: Displays a tree view of your project's directory structure
