@@ -173,14 +173,83 @@ def generate_pdf(project_name, directory, output_file):
     # Build the PDF
     doc.build(story)
 
+def generate_markdown(project_name, directory, output_file):
+    """Generate a Markdown document containing project context."""
+    with open(output_file, 'w', encoding='utf-8') as md_file:
+        # Add title
+        md_file.write(f"# Project Context: {project_name}\n\n")
+        
+        # Add project structure
+        md_file.write("## Project Structure\n\n")
+        md_file.write("```\n")
+        structure = get_project_structure(directory)
+        md_file.write(structure)
+        md_file.write("\n```\n\n")
+        
+        # Add code files
+        md_file.write("## Project Files\n\n")
+        
+        code_files = extract_code_from_project(directory)
+        for file_path, content in code_files:
+            md_file.write(f"### {file_path}\n\n")
+            
+            # Determine language for syntax highlighting
+            file_extension = os.path.splitext(file_path)[1][1:]
+            language = get_language_from_extension(file_extension)
+            
+            # Add code block with syntax highlighting
+            md_file.write(f"```{language}\n")
+            md_file.write(content)
+            md_file.write("\n```\n\n")
+    
+    print(f"Markdown generation complete: {output_file}")
+
+def get_language_from_extension(extension):
+    """Map file extension to markdown code language."""
+    extension_map = {
+        'py': 'python',
+        'js': 'javascript',
+        'ts': 'typescript',
+        'html': 'html',
+        'css': 'css',
+        'c': 'c',
+        'cpp': 'cpp',
+        'cs': 'csharp',
+        'java': 'java',
+        'rb': 'ruby',
+        'php': 'php',
+        'go': 'go',
+        'rs': 'rust',
+        'sh': 'bash',
+        'md': 'markdown',
+        'json': 'json',
+        'xml': 'xml',
+        'yaml': 'yaml',
+        'yml': 'yaml',
+        'sql': 'sql',
+        'kt': 'kotlin',
+        'swift': 'swift',
+        'dart': 'dart',
+        'r': 'r',
+        'jl': 'julia',
+        'pl': 'perl',
+        'lua': 'lua',
+        'ex': 'elixir',
+        'exs': 'elixir',
+    }
+    
+    return extension_map.get(extension.lower(), '')
+
 def main():
-    parser = argparse.ArgumentParser(description='Generate a PDF context document for a project.')
+    parser = argparse.ArgumentParser(description='Generate a context document for a project.')
     parser.add_argument('project_dir', help='Path to the project directory')
     parser.add_argument('--name', help='Project name (defaults to directory name)')
-    parser.add_argument('--output', help='Output PDF file path (defaults to project_name_context.pdf)')
+    parser.add_argument('--output', help='Output file path or directory (if directory, a file with default name will be created)')
+    parser.add_argument('--format', choices=['pdf', 'md'], default='pdf', help='Output format: pdf or md (markdown)')
     
     args = parser.parse_args()
     
+    # Validate and process project directory
     project_dir = os.path.abspath(args.project_dir)
     if not os.path.isdir(project_dir):
         print(f"Error: {project_dir} is not a valid directory")
@@ -189,15 +258,51 @@ def main():
     # Get project name
     project_name = args.name if args.name else os.path.basename(project_dir)
     
-    # Get output file
-    output_file = args.output if args.output else f"{project_name}_context.pdf"
+    # Get output format
+    output_format = args.format
     
-    print(f"Generating context PDF for project: {project_name}")
+    # Determine file extension based on format
+    file_extension = 'pdf' if output_format == 'pdf' else 'md'
+    
+    # Process output path
+    if args.output:
+        output_path = os.path.abspath(args.output)
+        
+        # Check if output is a directory
+        if os.path.isdir(output_path) or output_path.endswith(os.sep):
+            # Create directory if it doesn't exist
+            os.makedirs(output_path, exist_ok=True)
+            output_file = os.path.join(output_path, f"{project_name}_context.{file_extension}")
+        elif os.path.isdir(os.path.dirname(output_path)) or not os.path.dirname(output_path):
+            # Output is a file path with existing directory
+            output_file = output_path
+            # Create parent directory if needed
+            parent_dir = os.path.dirname(output_path)
+            if parent_dir and not os.path.exists(parent_dir):
+                os.makedirs(parent_dir, exist_ok=True)
+        else:
+            # Output is a file path with non-existing directory
+            parent_dir = os.path.dirname(output_path)
+            os.makedirs(parent_dir, exist_ok=True)
+            output_file = output_path
+    else:
+        # Default: create in current directory
+        output_file = f"{project_name}_context.{file_extension}"
+    
+    # Ensure the file has the correct extension
+    if not output_file.lower().endswith(f".{file_extension}"):
+        output_file += f".{file_extension}"
+    
+    print(f"Generating context {output_format.upper()} for project: {project_name}")
     print(f"Scanning directory: {project_dir}")
     print(f"Output file: {output_file}")
     
-    generate_pdf(project_name, project_dir, output_file)
-    print(f"PDF generation complete: {output_file}")
+    if output_format == 'pdf':
+        generate_pdf(project_name, project_dir, output_file)
+        print(f"PDF generation complete: {output_file}")
+    else:  # markdown
+        generate_markdown(project_name, project_dir, output_file)
+        print(f"Markdown generation complete: {output_file}")
 
 if __name__ == "__main__":
     main()
