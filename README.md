@@ -1,9 +1,4 @@
 # CodeContext
-
-CodeContext is a Python tool that extracts code from your project and creates a comprehensive document (PDF or Markdown) containing your project's structure and source code. This makes it easy to share your entire project context with Large Language Models (LLMs) like Claude or GPT for better understanding and assistance.
-
-![CodeContext Banner](https://github.com/EiadurRahman/CodeContext/raw/main/assets/banner.png)
-
 ## Features
 
 - **Complete Project Structure**: Displays a tree view of your project's directory structure
@@ -44,7 +39,7 @@ python main.py /path/to/your/project --format md
 ### Command Line Options
 
 ```bash
-python main.py <project_dir> [--name PROJECT_NAME] [--output OUTPUT_PATH] [--format {pdf,md}]
+python main.py /path/to/your/project [--name PROJECT_NAME] [--output OUTPUT_FILE]
 ```
 
 #### Required Arguments:
@@ -74,7 +69,7 @@ python main.py ~/projects/my-flask-app --output ~/documents/code_docs/
 
 Specify a complete output file path:
 ```bash
-python main.py ~/projects/my-flask-app --format md --output ~/documents/code_docs/flask_app.md
+python main.py ~/projects/my-flask-app --name "Flask Application" --output flask_app_context.pdf
 ```
 
 ## Output Examples
